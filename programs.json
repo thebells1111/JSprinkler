@@ -1,32 +1,41 @@
 [
  {
   "selectedStations": [
-   "s7"
+   "s1"
   ],
-  "dailyStart": 23400000,
-  "dailyStop": 27000000,
-  "dateStart": 1574744400000,
+  "dailyStart": 3600000,
+  "dailyStop": 46800000,
+  "dateStart": 1578031200000,
   "dateInterval": 86400000,
-  "timerOn": 23400000,
-  "timerOff": 23460000,
   "timerDuration": 60000,
-  "timerInterval": 28800000,
+  "timerInterval": 120000,
   "type": "interval",
-  "DOW": []
+  "dow": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "timerOn": 46080000,
+  "timerOff": 46140000
  },
  {
   "selectedStations": [
-   "s4"
+   "s2"
   ],
-  "dailyStart": 27000000,
-  "dailyStop": 30600000,
-  "dateStart": 1574830800000,
+  "dailyStart": 3600000,
+  "dailyStop": 50400000,
+  "dateStart": 1578031200000,
   "dateInterval": 172800000,
-  "timerOn": 27000000,
-  "timerOff": 27060000,
   "timerDuration": 60000,
-  "timerInterval": 50400000,
+  "timerInterval": 120000,
   "type": "interval",
-  "DOW": []
+  "dow": [
+   1
+  ],
+  "timerOn": 46080000,
+  "timerOff": 46140000
  }
 ]
