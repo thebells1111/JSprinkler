@@ -74,9 +74,9 @@ class Sprinkler {
   getStationNames() {
     try {
       const names = JSON.parse(fs.readFileSync("./stationNames.json", "utf8"));
-      Object.keys(names).forEach(v=>{
-        this.stations[v].name=names[v]
-      })     
+      Object.keys(names).forEach(v => {
+        this.stations[v].name = names[v];
+      });
     } catch (e) {
       console.log(e);
     }
