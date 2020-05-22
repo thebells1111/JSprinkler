@@ -107,7 +107,7 @@ class Sprinkler {
       if (timeNow > p.dateStart + p.dailyStop) {
         p.dateStart += p.dateInterval;
         p.timerOn = p.dailyStart;
-        p.timerOff = p.dailyStart + p.timerDuration;
+        p.timerOff = p.timerOn + p.timerDuration;
         update = true;
       }
 
@@ -115,14 +115,14 @@ class Sprinkler {
       let nextOffTime = p.dateStart + p.timerOff;
 
       while (timeNow > nextOffTime) {
-        p.timerOff = p.timerOff + p.timerInterval;
+        p.timerOn = p.timerOn + p.timerInterval;
+        p.timerOff = p.timerOn + p.timerDuration;
         nextOffTime = p.dateStart + p.timerOff;
-        p.timerOn = p.timerOff - p.timerDuration;
         nextOnTime = p.dateStart + p.timerOn;
         update = true;
       }
 
-      if (timeNow >= p.dateStart + p.dailyStart && timeNow >= nextOnTime) {
+      if (timeNow >= nextOnTime) {
         p.selectedStations.forEach((s) => {
           let duration = nextOffTime - Math.round(timeNow / 1000) * 1000;
           if (duration > this.stations[s].duration) {
@@ -134,11 +134,11 @@ class Sprinkler {
       Object.keys(this.stations).forEach((s) => {
         if (this.stations[s].duration > 0) {
           this.turnOn(s);
+        } else {
+          this.turnOff(s);
         }
       });
     });
-
-    Object.keys(this.stations).forEach((s) => this.turnOff(s));
 
     if (update) {
       this.updatePrograms(this.programs);
@@ -149,6 +149,9 @@ class Sprinkler {
     Object.keys(this.stations).forEach((s) => {
       if (this.stations[s].duration > 0) {
         this.stations[s].duration -= 1000;
+        if (s !== "s8") {
+          console.log(`${s}: ${this.stations[s].duration}`);
+        }
       }
     });
   }
@@ -170,15 +173,14 @@ class Sprinkler {
   }
 
   turnOff(station) {
-    if (
-      this.stations[station].status === 1 &&
-      this.stations[station].duration <= 0
-    ) {
-      console.log(
-        `${
-          this.stations[station].name
-        } turned off at ${new Date().toLocaleString()}`
-      );
+    if (this.stations[station].duration <= 0) {
+      if (this.stations[station].status === 1) {
+        console.log(
+          `${
+            this.stations[station].name
+          } turned off at ${new Date().toLocaleString()}`
+        );
+      }
       this.stations[station].status = 0;
       // rpio.write(this.stations[station].pin, rpio.LOW);
     }
