@@ -60,4 +60,4 @@ app.post("/toggle_manual", (req, res) => {
   res.send("OK");
 });
 
-app.listen(80, () => console.log("server started"));
+app.listen(8000, () => console.log("server started"));

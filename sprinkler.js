@@ -1,5 +1,5 @@
 const fs = require("fs");
-// const rpio = require('rpio');
+const rpio = require('rpio');
 
 class Sprinkler {
   constructor() {
@@ -7,8 +7,8 @@ class Sprinkler {
     this.stations = {
       s1: { name: "BROKEN", pin: 11, status: 0, duration: 0 },
       s2: { name: "Back", pin: 13, status: 0, duration: 0 },
-      s3: { name: "Buckets", pin: 15, status: 0, duration: 0 },
-      s4: { name: "Side", pin: 29, status: 0, duration: 0 },
+      s3: { name: "Side", pin: 15, status: 0, duration: 0 },
+      s4: { name: "Buckets", pin: 29, status: 0, duration: 0 },
       s5: { name: "s5", pin: 31, status: 0, duration: 0 },
       s6: { name: "s6", pin: 33, status: 0, duration: 0 },
       s7: { name: "Front", pin: 36, status: 0, duration: 0 },
@@ -22,9 +22,9 @@ class Sprinkler {
   }
 
   init() {
-    // Object.keys(this.stations).forEach(s => {
-    //   rpio.open(this.stations[s].pin, rpio.OUTPUT, rpio.LOW);
-    // });
+     Object.keys(this.stations).forEach(s => {
+       rpio.open(this.stations[s].pin, rpio.OUTPUT, rpio.HIGH);
+     });
 
     this.getPrograms();
     this.runPrograms();
@@ -182,7 +182,7 @@ class Sprinkler {
         );
       }
       this.stations[station].status = 0;
-      // rpio.write(this.stations[station].pin, rpio.LOW);
+      rpio.write(this.stations[station].pin, rpio.HIGH);
     }
   }
 
@@ -194,7 +194,7 @@ class Sprinkler {
         } turned on at ${new Date().toLocaleString()}`
       );
       this.stations[station].status = 1;
-      // rpio.write(this.stations[station].pin, rpio.HIGH);
+      rpio.write(this.stations[station].pin, rpio.LOW);
     }
   }
 
