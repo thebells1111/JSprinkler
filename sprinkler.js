@@ -152,6 +152,9 @@ class Sprinkler {
         if (s !== "s8") {
           console.log(`${s}: ${this.stations[s].duration}`);
         }
+        if (s === "s8" && this.stations[s].duration < 1) {
+          this.manual = 0;
+        }
       }
     });
   }
