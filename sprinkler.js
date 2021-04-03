@@ -1,5 +1,5 @@
 const fs = require("fs");
-const rpio = require('rpio');
+const rpio = require("rpio");
 
 class Sprinkler {
   constructor() {
@@ -22,9 +22,9 @@ class Sprinkler {
   }
 
   init() {
-     Object.keys(this.stations).forEach(s => {
-       rpio.open(this.stations[s].pin, rpio.OUTPUT, rpio.HIGH);
-     });
+    Object.keys(this.stations).forEach((s) => {
+      rpio.open(this.stations[s].pin, rpio.OUTPUT, rpio.HIGH);
+    });
 
     this.getPrograms();
     this.runPrograms();
@@ -180,7 +180,18 @@ class Sprinkler {
             this.stations[station].name
           } turned off at ${new Date().toLocaleString()}`
         );
+
+        fs.appendFile(
+          "log.txt",
+          `${
+            this.stations[station].name
+          } turned off at ${new Date().toLocaleString()}\n\n`,
+          function (err) {
+            if (err) return console.log(err);
+          }
+        );
       }
+
       this.stations[station].status = 0;
       rpio.write(this.stations[station].pin, rpio.HIGH);
     }
@@ -191,8 +202,19 @@ class Sprinkler {
       console.log(
         `${
           this.stations[station].name
-        } turned on at ${new Date().toLocaleString()}`
+        } turned on at ${new Date().toLocaleString()}\n`
       );
+
+      fs.appendFile(
+        "log.txt",
+        `${
+          this.stations[station].name
+        } turned on at ${new Date().toLocaleString()}\n`,
+        function (err) {
+          if (err) return console.log(err);
+        }
+      );
+
       this.stations[station].status = 1;
       rpio.write(this.stations[station].pin, rpio.LOW);
     }
